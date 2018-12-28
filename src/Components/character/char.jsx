@@ -7,6 +7,8 @@ class Char extends Component {
     this.state = {
       list: []
     };
+
+    this.removeEle = this.removeEle.bind(this);
   }
 
 
@@ -19,13 +21,22 @@ class Char extends Component {
   }
 
 
+  removeEle(index) {
+    let newList = [...this.state.list];
+    newList.splice(index, 1);
+    this.setState({
+      list: newList
+    });
+  }
+
+
   render() {
     return (
       <div>
         <h1>Char component</h1>
         <ul>
           {this.state.list.map((val, index) => {
-            return <li key={index} className={CharStyle.charList}>{val}</li>
+            return <li onClick={() => this.removeEle(index)} key={index} className={CharStyle.charList}>{val}</li>
           })}
         </ul>
       </div>
