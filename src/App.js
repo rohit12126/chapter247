@@ -1,41 +1,34 @@
 import React, { Component } from 'react';
-import Person from './Person/Person';
 import './App.css';
+import Char from './Components/character/char';
+import Validation from './Components/validation/validation';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      persons: [
-        {id: '34',name: 'SH', age:28},
-        {id: 'hfg',name: 'dsf', age: 34}
-      ]
+      name: '',
+      email: ''
     }
-    this.handleClick = this.handleClick.bind(this)
+    this.handleInputs = this.handleInputs.bind(this)
   }
 
-  handleClick(arg, event) {
-    const persons = [...this.state.persons];
-    const a = persons.push({name:'jj'});
-   
-    console.log(a);
-    this.setState({
-      persons: [{ name:'fg', age:45 }]
-    })
 
-    console.log(this.state);
+  handleInputs(e) {
+    this.setState({[e.target.name]: e.target.value});
   }
+
 
   render() {
-    console.log(this.state.persons);
-    const persons = this.state.persons.map((person) => {
-      return (<Person key={person.id} name={person.name} >Age: {person.age}</Person>)
-    })
+    
     return (
       <div className="App">
-        <h1>Hello World</h1>
-        <button onClick={this.handleClick}>Click</button>
-        {persons}
+        <input type="text" placeholder="Name" name="name" value={this.state.name} onChange={this.handleInputs} />
+        <input type="email" placeholder="Email" name="email" value={this.state.email} onChange={this.handleInputs} />
+
+        <br />
+
+        <Validation name={this.state.name} type={'Name'} />
       </div>
     );
   }
