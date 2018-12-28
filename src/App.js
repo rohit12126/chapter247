@@ -8,9 +8,9 @@ class App extends Component {
     super();
     this.state = {
       name: '',
-      email: ''
+      addValue: ''
     }
-    this.handleInputs = this.handleInputs.bind(this)
+    this.handleInputs = this.handleInputs.bind(this);
   }
 
 
@@ -24,11 +24,14 @@ class App extends Component {
     return (
       <div className="App">
         <input type="text" placeholder="Name" name="name" value={this.state.name} onChange={this.handleInputs} />
-        <input type="email" placeholder="Email" name="email" value={this.state.email} onChange={this.handleInputs} />
 
         <br />
 
         <Validation name={this.state.name} type={'Name'} />
+
+        <br />
+
+        <Char name={this.state.name} />
       </div>
     );
   }
