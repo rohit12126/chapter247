@@ -1,41 +1,39 @@
 import React, { Component } from 'react';
 import Person from './Person/Person';
 import './App.css';
+import Validation from './Validation/validation';
+import Char from './Char/char';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      persons: [
-        {id: '34',name: 'SH', age:28},
-        {id: 'hfg',name: 'dsf', age: 34}
-      ]
+      name: ''
     }
-    this.handleClick = this.handleClick.bind(this)
+    this.handleChange = this.handleChange.bind(this);
+    this.changeInput = this.changeInput.bind(this);
   }
 
-  handleClick(arg, event) {
-    const persons = [...this.state.persons];
-    const a = persons.push({name:'jj'});
-   
-    console.log(a);
-    this.setState({
-      persons: [{ name:'fg', age:45 }]
+  handleChange(e){
+    this.setState ({
+        [e.target.name]: e.target.value
     })
-
-    console.log(this.state);
   }
 
-  render() {
-    console.log(this.state.persons);
-    const persons = this.state.persons.map((person) => {
-      return (<Person key={person.id} name={person.name} >Age: {person.age}</Person>)
-    })
+  changeInput(index) {
+    let n = this.state.name;
+    n = n.split('');
+    n.splice(index, 1);
+    this.setState({ name: n.join('')});
+  }
+
+  render(){
     return (
       <div className="App">
-        <h1>Hello World</h1>
-        <button onClick={this.handleClick}>Click</button>
-        {persons}
+        <input type="text" placeholder="Name" name="name" value={this.state.name} onChange={this.handleChange} /> 
+        <br />
+        <Validation name={this.state.name} type={'Name'} />
+        <Char removeFromInput={this.changeInput}  name={this.state.name} type={'Name'}  ></Char>
       </div>
     );
   }
