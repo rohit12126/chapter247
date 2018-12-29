@@ -8,14 +8,21 @@ class App extends Component {
     super();
     this.state = {
       name: '',
-      addValue: ''
     }
     this.handleInputs = this.handleInputs.bind(this);
+    this.manipulateInput = this.manipulateInput.bind(this);
   }
 
 
   handleInputs(e) {
     this.setState({[e.target.name]: e.target.value});
+  }
+
+  manipulateInput(index) {
+    let n = this.state.name;
+    n = n.split('');
+    n.splice(index, 1);
+    this.setState({ name: n.join('')});
   }
 
 
@@ -31,7 +38,7 @@ class App extends Component {
 
         <br />
 
-        <Char name={this.state.name} />
+        <Char name={this.state.name} removeFromInput={this.manipulateInput} />
       </div>
     );
   }

@@ -12,21 +12,17 @@ class Char extends Component {
   }
 
 
-  componentWillReceiveProps() {
-    let newList = [...this.state.list];
-    newList = this.props.name.split('');
-    this.setState({
+  static getDerivedStateFromProps(nextProps, prevState) {
+    let newList = [...prevState.list];
+    newList = nextProps.name.split('');
+    return {
       list: newList
-    });
+    }
   }
 
 
   removeEle(index) {
-    let newList = [...this.state.list];
-    newList.splice(index, 1);
-    this.setState({
-      list: newList
-    });
+    this.props.removeFromInput(index);
   }
 
 
