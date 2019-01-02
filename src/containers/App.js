@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import Persons from './Persons';
+import Persons from '../components/Persons';
 import './App.css';
+import withClass from '../hoc/withClass';
 
 class App extends Component {
   constructor() {
@@ -17,9 +18,22 @@ class App extends Component {
   }
 
   componentWillMount () {
-
-    
+    console.log('App: componentWillMount')
   }
+  componentDidMount () {
+    console.log('App: componentDidMount')
+  }
+  shouldComponentUpdate() {
+    console.log('App: shouldComponentUpdate')
+    return true;
+  }
+  componentWillUpdate () {
+    console.log('App: componentWillUpdate')
+  }
+  componentDidUpdate () {
+    console.log('App: componentDidUpdate')
+  }
+  
 
   handleChange(id, e) {
     const personIndex = this.state.persons.findIndex(person => person.id === id);
@@ -32,28 +46,29 @@ class App extends Component {
 
   toggle() {
     const current = this.state.show;
-    this.setState({ show: !current });
+    this.setState({ show: true });
   }
 
   render() {
+    console.log('App: render')
     let persons = null;
     const btnStyle = {
       backgroundColor: 'white'
     }
     let btnClass = '';
     if(this.state.show) {
-      return (<Persons persons={this.state.persons} handleChange={this.handleChange} >Age: {person.age}</Persons>)
       btnClass = 'red-btn';
+      persons = <Persons persons={this.state.persons} handleChange={this.handleChange} />
     }
     
     return (
-      <div className="App">
+      <>
         <h1>Hello World</h1>
         <button className={btnClass} onClick={this.toggle}>Click</button>
         {persons}
-      </div>
+      </>
     );
   }
 }
 
-export default App;
+export default withClass(App, 'App');
