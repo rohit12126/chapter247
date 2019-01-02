@@ -12,8 +12,7 @@ class Assignment extends Component{
         this.setState({[event.target.name]:event.target.value})
     }
     handelDelete = (index) => {
-        console.log(index);
-        console.log("index");
+        
         let name = this.state.name;
         name = name.split('');
         name.splice(index, 1);
