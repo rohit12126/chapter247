@@ -17,6 +17,7 @@ class Contacts extends Component {
     this.handleInputs = this.handleInputs.bind(this);
     this.showAddItem = this.showAddItem.bind(this);
     this.addItem = this.addItem.bind(this);
+    this.editItem = this.editItem.bind(this);
     this.removeItem = this.removeItem.bind(this);
     this.showContactDetails = this.showContactDetails.bind(this);
   }
@@ -69,6 +70,12 @@ class Contacts extends Component {
 
 
 
+  editItem(index) {
+    
+  }
+
+
+
   removeItem(index) {
     if (index > -1) {
       let newList = [...this.state.contactList];
@@ -97,17 +104,21 @@ class Contacts extends Component {
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
                 <th scope="col">Number</th>
-                <th scope="col">Remove</th>
+                <th scope="col">Actions</th>
               </tr>
             </thead>
             <tbody>
               {
                 this.state.contactList.map((val, ind) => {
-                  return <tr key={ind} onClick={() => this.showContactDetails(ind)}>
+                  return <tr key={ind} onClick={() => this.showContactDetails(ind)} className={ContactStyle.tableRow}>
                     <th scope="row">{ind + 1}</th>
                     <td>{val.name}</td>
                     <td>{val.number}</td>
                     <td>
+                      <button className="btn btn-primary" type="button" onClick={() => this.editItem(ind)}>Edit</button>
+
+                      <span className={ContactStyle.spacer}></span>
+
                       <button className="btn btn-danger" type="button" onClick={() => this.removeItem(ind)}>Remove</button>
                     </td>
                   </tr>

@@ -1,5 +1,5 @@
 .listDiv {
-  width: 350px;
+  width: 550px;
   position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -21,4 +21,12 @@
   width: 350px;
   margin: 0 auto;
   margin-top: 100px;
+}
+
+.tableRow {
+  cursor: pointer;
+}
+
+.spacer {
+  margin: 0 5px 0px 5px;
 }
