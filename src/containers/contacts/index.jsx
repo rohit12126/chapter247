@@ -11,13 +11,15 @@ class Contacts extends Component {
       name: '',
       number: '',
       showDetails: false,
-      showData: {}
+      showData: {},
+      btnValue: 'Submit',
+      editIndex: undefined
     };
 
     this.handleInputs = this.handleInputs.bind(this);
     this.showAddItem = this.showAddItem.bind(this);
     this.addItem = this.addItem.bind(this);
-    this.editItem = this.editItem.bind(this);
+    this.showEdit = this.showEdit.bind(this);
     this.removeItem = this.removeItem.bind(this);
     this.showContactDetails = this.showContactDetails.bind(this);
   }
@@ -51,7 +53,8 @@ class Contacts extends Component {
 
   showAddItem() {
     this.setState({
-      addContactForm: true
+      addContactForm: true,
+      btnValue: 'Submit'
     });
   }
 
@@ -59,19 +62,37 @@ class Contacts extends Component {
 
 
   addItem(e) {
-    let newList = [...this.state.contactList];
-    newList.push({
-      name: this.state.name,
-      number: this.state.number
-    });
-    this.setState({ contactList: newList, addContactForm: false, name: '', number: '' });
+    if (this.state.btnValue === 'Submit') {
+      let newList = [...this.state.contactList];
+      newList.push({
+        name: this.state.name,
+        number: this.state.number
+      });
+      this.setState({ contactList: newList, addContactForm: false, name: '', number: '' });
+    } else if (this.state.btnValue === 'Edit') {
+      let newList = [...this.state.contactList];
+      if (this.state.editIndex > -1) {
+        newList[this.state.editIndex].name = this.state.name;
+        newList[this.state.editIndex].number = this.state.number;
+      }
+      this.setState({ contactList: newList, addContactForm: false, name: '', number: '', editIndex: undefined, btnValue: 'Submit' });
+    }
+    
     e.preventDefault(); // stop refresh of page on submit
   }
 
 
 
-  editItem(index) {
-    
+  showEdit(index) {
+    const newList = [...this.state.contactList];
+    let data = {...newList[index]};
+    this.setState({
+      addContactForm: true,
+      name: data.name,
+      number: data.number,
+      btnValue: 'Edit',
+      editIndex: index
+    });
   }
 
 
@@ -115,7 +136,7 @@ class Contacts extends Component {
                     <td>{val.name}</td>
                     <td>{val.number}</td>
                     <td>
-                      <button className="btn btn-primary" type="button" onClick={() => this.editItem(ind)}>Edit</button>
+                      <button className="btn btn-primary" type="button" onClick={() => this.showEdit(ind)}>Edit</button>
 
                       <span className={ContactStyle.spacer}></span>
 
@@ -142,7 +163,7 @@ class Contacts extends Component {
                   <label>Number</label>
                   <input type="text" className="form-control" aria-describedby="number" placeholder="Enter mobile number" value={this.state.number} onChange={this.handleInputs} name="number" />
                 </div>
-                <button type="submit" className="btn btn-primary">Submit</button>
+                <button type="submit" className="btn btn-primary">{this.state.btnValue}</button>
               </form>
             </div>
         }
