@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ContactStyle from './contact.module.css';
+import ContactDetailsComponent from '../../components/contactDetails/contactDetails';
 
 class Contacts extends Component {
   constructor() {
@@ -9,12 +10,15 @@ class Contacts extends Component {
       addContactForm: false,
       name: '',
       number: '',
+      showDetails: false,
+      showData: {}
     };
 
     this.handleInputs = this.handleInputs.bind(this);
     this.showAddItem = this.showAddItem.bind(this);
     this.addItem = this.addItem.bind(this);
     this.removeItem = this.removeItem.bind(this);
+    this.showContactDetails = this.showContactDetails.bind(this);
   }
 
 
@@ -74,6 +78,14 @@ class Contacts extends Component {
   }
 
 
+
+  showContactDetails(index) {
+    const newList = [...this.state.contactList];
+    const showData = newList[index];
+    this.setState({ showDetails: !this.state.showDetails, showData });
+  }
+
+
   render() {
     return (
       <div>
@@ -91,7 +103,7 @@ class Contacts extends Component {
             <tbody>
               {
                 this.state.contactList.map((val, ind) => {
-                  return <tr key={ind}>
+                  return <tr key={ind} onClick={() => this.showContactDetails(ind)}>
                     <th scope="row">{ind + 1}</th>
                     <td>{val.name}</td>
                     <td>{val.number}</td>
@@ -123,11 +135,16 @@ class Contacts extends Component {
               </form>
             </div>
         }
+        <br/>
+        {
+          this.state.showDetails ?
+          <ContactDetailsComponent data={this.state.showData} />
+          :
+          null
+        }
       </div>
     )
   }
-
-
 }
 
 export default Contacts;
