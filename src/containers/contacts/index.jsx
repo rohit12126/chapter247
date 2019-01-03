@@ -7,7 +7,9 @@ class Contacts extends Component {
     super();
     this.state = {
       contactList: [],
+      searchList: [],
       addContactForm: false,
+      search: '',
       name: '',
       number: '',
       showDetails: false,
@@ -16,6 +18,7 @@ class Contacts extends Component {
       editIndex: undefined
     };
 
+    this.handleSearch = this.handleSearch.bind(this);
     this.handleInputs = this.handleInputs.bind(this);
     this.showAddItem = this.showAddItem.bind(this);
     this.addItem = this.addItem.bind(this);
@@ -28,14 +31,29 @@ class Contacts extends Component {
   componentDidMount() {
     let list = [...this.state.contactList];
     list = [
-      {name: 'Tushar', number: '8748237434'},
-      {name: 'Yash', number: '9567546435'},
-      {name: 'Rishab', number: '34654654654'},
-      {name: 'Sohit', number: '68546643543'}
+      { name: 'Tushar', number: '8748237434' },
+      { name: 'Yash', number: '9567546435' },
+      { name: 'Rishab', number: '34654654654' },
+      { name: 'Sohit', number: '68546643543' }
     ];
 
     this.setState({
-      contactList: list
+      contactList: list,
+      searchList: list
+    });
+  }
+
+
+
+
+  handleSearch(e) {
+    let updatedList = [...this.state.contactList];
+    updatedList = updatedList.filter(function (item) {
+      return item.name.toLowerCase().search(e.target.value.toLowerCase()) !== -1;
+    });
+    this.setState({
+      [e.target.name]: e.target.value,
+      searchList: updatedList
     });
   }
 
@@ -46,6 +64,10 @@ class Contacts extends Component {
     this.setState({
       [e.target.name]: e.target.value,
     });
+    if (e.target.name === 'search') {
+      let myList = [...this.state.contactList];
+      this.search(e.target.value, myList);
+    }
   }
 
 
@@ -77,7 +99,7 @@ class Contacts extends Component {
       }
       this.setState({ contactList: newList, addContactForm: false, name: '', number: '', editIndex: undefined, btnValue: 'Submit' });
     }
-    
+
     e.preventDefault(); // stop refresh of page on submit
   }
 
@@ -85,7 +107,7 @@ class Contacts extends Component {
 
   showEdit(index) {
     const newList = [...this.state.contactList];
-    let data = {...newList[index]};
+    let data = { ...newList[index] };
     this.setState({
       addContactForm: true,
       name: data.name,
@@ -118,6 +140,7 @@ class Contacts extends Component {
     return (
       <div>
         <h1>Contact List</h1>
+        <input type="text" placeholder="Search" name="search" className="form-control" style={{width: '250px', margin: '0 auto', marginBottom: '20px'}}aria-describedby="search" value={this.state.search} onChange={this.handleSearch} />
         <div className={ContactStyle.listDiv}>
           <table className="table">
             <thead>
@@ -130,7 +153,7 @@ class Contacts extends Component {
             </thead>
             <tbody>
               {
-                this.state.contactList.map((val, ind) => {
+                this.state.searchList.map((val, ind) => {
                   return <tr key={ind} onClick={() => this.showContactDetails(ind)} className={ContactStyle.tableRow}>
                     <th scope="row">{ind + 1}</th>
                     <td>{val.name}</td>
@@ -148,7 +171,7 @@ class Contacts extends Component {
             </tbody>
           </table>
         </div>
-        <br/>
+        <br />
         {
           !this.state.addContactForm ?
             <button type="button" className="btn btn-primary" onClick={this.showAddItem}>Add contact</button>
@@ -167,12 +190,12 @@ class Contacts extends Component {
               </form>
             </div>
         }
-        <br/>
+        <br />
         {
           this.state.showDetails ?
-          <ContactDetailsComponent data={this.state.showData} />
-          :
-          null
+            <ContactDetailsComponent data={this.state.showData} />
+            :
+            null
         }
       </div>
     )
