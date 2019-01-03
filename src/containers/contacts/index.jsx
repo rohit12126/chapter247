@@ -49,7 +49,7 @@ class Contacts extends Component {
   handleSearch(e) {
     let updatedList = [...this.state.contactList];
     updatedList = updatedList.filter(function (item) {
-      return item.name.toLowerCase().search(e.target.value.toLowerCase()) !== -1;
+      return (item.name.toLowerCase().search(e.target.value.toLowerCase()) !== -1) || (item.number.toLowerCase().search(e.target.value.toLowerCase()) !== -1);
     });
     this.setState({
       [e.target.name]: e.target.value,
