@@ -10,7 +10,8 @@ class Add extends Component{
             contactNumber:"",
             emailId:"",
             data:[],
-            status:false
+            status:false,
+            back:false
             
         }
     }
@@ -21,25 +22,23 @@ class Add extends Component{
      
     }
     handelSubmit = (event) =>{
-      this.setState({status:true})
-      var data={
-          name:this.state.name,
-          position:this.state.position,
-          contactNumber:this.state.contactNumber,
-          emailId:this.state.emailId
-      }
-      
-      console.log(data)
-     this.props.handlerFromParant(data);
+        event.preventDefault();
+        this.setState({status:true})
+        var data={
+            name:this.state.name,
+            position:this.state.position,
+            contactNumber:this.state.contactNumber,
+            emailId:this.state.emailId
+        }
+        this.props.handlerFromParant(data);
     
     }
-      
-
-    render(){
-    
+    handelClick = () =>{
+        this.setState({back:true})
+    }
+    render(){   
         return(
             <div>
-                             
                 <div className="static-modal">  
                 <div className="col-md-4 offset-md-4">
                  <Panel bsStyle="primary">
@@ -83,8 +82,11 @@ class Add extends Component{
                             <Button onClick={this.handelSubmit}>Submit</Button>
                         </form>
                     </Panel.Body>
-                </Panel></div>
+                </Panel>
+                <button onClick={this.handelClick}>Back</button>
+                {this.state.back ?<List />:""}
             </div>
+                </div>
             
 
                         
