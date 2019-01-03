@@ -2,15 +2,16 @@ import React, { PureComponent } from 'react';
 import Person from './Person';
 
 class Persons extends PureComponent {
+    constructor() {
+        super();
+        this.personRef = React.createRef();
+    }
+
     componentWillMount() {
         console.log('PersonsApp: componentWillMount')
     }
-    componentDidMount() {
-        console.log('Persons: componentDidMount')
-    }
-    shouldComponentUpdate() {
-        console.log('Persons: shouldComponentUpdate')
-        return false;
+    componentDidMount = () => {
+        this.personRef.current.focus();
     }
     componentWillUpdate() {
         console.log('Persons: componentWillUpdate')
@@ -21,8 +22,14 @@ class Persons extends PureComponent {
 
     render() {
         return (
-            this.props.persons.map((person) => {
-                return <Person name={person.name} handleChange={this.props.handleChange}>{person.age}</Person>
+            this.props.persons.map((person, index) => {
+                return <Person
+                name={person.name}
+                id={person.id}
+                handleChange={this.props.handleChange}
+                position={index}
+                ref={this.personRef}
+                >{person.age}</Person>
             })
         )
     }

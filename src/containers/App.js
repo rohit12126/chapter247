@@ -12,9 +12,11 @@ class App extends Component {
         {id: 'hfg',name: 'dsf', age: 34}
       ],
       show: false,
+      counter: 0,
     }
     this.handleChange = this.handleChange.bind(this)
     this.toggle = this.toggle.bind(this)
+    this.handleCounter = this.handleCounter.bind(this)
   }
 
   componentWillMount () {
@@ -49,6 +51,10 @@ class App extends Component {
     this.setState({ show: true });
   }
 
+  handleCounter() {
+    this.setState((state) => { return { counter: state.counter + 1 } })
+  }
+
   render() {
     console.log('App: render')
     let persons = null;
@@ -64,6 +70,8 @@ class App extends Component {
     return (
       <>
         <h1>Hello World</h1>
+        <p>{this.state.counter}</p>
+        <button onClick={this.handleCounter}>Counter</button>
         <button className={btnClass} onClick={this.toggle}>Click</button>
         {persons}
       </>
