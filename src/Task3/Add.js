@@ -11,15 +11,13 @@ class Add extends Component{
             emailId:"",
             data:[],
             status:false,
-            back:false
+            back:false,
+            show:true
             
         }
     }
     handleChange = (event) =>{
-      
         this.setState({[event.target.name]:event.target.value})
-       
-     
     }
     handelSubmit = (event) =>{
         event.preventDefault();
@@ -33,14 +31,12 @@ class Add extends Component{
         this.props.handlerFromParant(data);
     
     }
-    handelClick = () =>{
-        this.setState({back:true})
-    }
     render(){   
         return(
             <div>
+                {this.state.show ?
                 <div className="static-modal">  
-                <div className="col-md-4 offset-md-4">
+                <div className="col-md-4">
                  <Panel bsStyle="primary">
                     <Panel.Heading>
                         <Panel.Title componentClass="h3">Employee Form</Panel.Title>
@@ -83,13 +79,12 @@ class Add extends Component{
                         </form>
                     </Panel.Body>
                 </Panel>
-                <button onClick={this.handelClick}>Back</button>
-                {this.state.back ?<List />:""}
+                           
             </div>
                 </div>
-            
+            :""}
 
-                        
+               
             </div>
         )
     }

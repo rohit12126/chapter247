@@ -1,6 +1,6 @@
 import React,{Component} from 'react'
 import Employeedetail from './Employeedetail'
-import Search from './Search'
+
 import Add from './Add'
 class List extends Component{
     constructor(props){
@@ -9,7 +9,7 @@ class List extends Component{
             employeeDetail:"",
             show:true,
             add:false,
-            item:"",
+            
             
             data:[{
                 name:"Archana",
@@ -72,50 +72,36 @@ class List extends Component{
                 emailId:"marry@gmail.com"
             }
         ],
-        item:[],
+        
         detail:false
         }
     }
-    componentDidMount(){
-        var temp=this.state.item
-        this.state.data.map(item =>{
-            temp.push(item.name);
-            this.setState({item:temp})
-        })
-    }
     filterList = (event)=>{
-        
-        var updatedList = this.state.item
+        var updatedList = [...this.state.data]
         console.log(updatedList)
         updatedList = updatedList.filter(function(item){
-            return item.toLowerCase().search(
+            return item.name.toLowerCase().search(
             event.target.value.toLowerCase()) !== -1;
         });
         this.setState({data: updatedList});
         }
-
     handelDelete =(index)=>{
-
         const data=this.state.data;
         data.splice(index,1)
-        this.setState({data})
-        
+        this.setState({data})     
     }
     handelShow= (value) =>    {
         this.setState({detail:true,
             employeeDetail:value,
             show:false
-            
         })
            }
-
-           
     handelClick =(value)=>{
         this.setState({
             show:false,
             add:true,
+            search:false
         })
-        
     }
     handleData =(detail)=> {
         const data=[...this.state.data]
@@ -127,25 +113,26 @@ class List extends Component{
         this.setState({add:false})
        }
     
-
-    
     render(){
         console.log(this.state.data)
         return(
             <div> 
-                
-                <form>
-                    <fieldset className="form-group">
-                    <input type="text" className="form-control form-control-lg" placeholder="Search" onChange={this.filterList}/>
-                    </fieldset>
-                </form>
-                  {this.state.add ?<Add />:""}
-                  <button onClick={this.handelClick}>Add</button>
-                { 
+                <center>
+                    {this.state.show ?
+                    <form>
+                        <fieldset className="form-group">
+                        <input type="text" className="form-control" placeholder="Search" onChange={this.filterList}/>
+                        </fieldset>
+                    </form>
+                    :""}
+                </center>
+                  {this.state.add ?<Add handlerFromParant={this.handleData} />:""}
+                {this.state.show ?  <button onClick={this.handelClick}>Add</button>  :""}           
+                   { 
                    this.state.show ?
                    this.state.data.map((value,index) =>{
                     return <ul>
-                    <li key={index}onClick={(e)=>this.handelShow(value)} >{value.name} <button style={{color:'red'} } onClick={(e)=>this.handelDelete(index)}>Delete</button></li>
+                    <li key={index}onClick={(e)=>this.handelShow(value)} >{value.name} </li><button style={{color:'red'} } onClick={(e)=>this.handelDelete(index)}>Delete</button>
                     
                     </ul>
                 })
