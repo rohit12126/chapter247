@@ -10,10 +10,18 @@ class Assignment extends Component{
         }
     }
     handelChange = (event) => {
-        this.setState({[event.target.name]:event.target.value})
+        let name = event.target.value;
+        console.log(name);
+        this.setState({name})
     }
-    handelDelete = () => {
-
+    handelDelete = (index) => {
+        console.log(index);
+        console.log("index");
+        let name = this.state.name;
+        name = name.split('');
+        name.splice(index, 1);
+        name = name.join('');
+        this.setState({name});
     }
     render(){
         return(
@@ -30,7 +38,7 @@ class Assignment extends Component{
                             nameLength = {this.state.name.length} 
                         />
                         <CharComponent 
-                            name = {this.state.name} 
+                            name = {this.state.name.split('')} 
                             handelDelete = {this.handelDelete} 
                         />
                     </div>
