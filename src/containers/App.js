@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Persons from '../components/Persons';
 import './App.css';
 import withClass from '../hoc/withClass';
+import {AuthContext} from '../context';
 
 class App extends Component {
   constructor() {
@@ -13,10 +14,12 @@ class App extends Component {
       ],
       show: false,
       counter: 0,
+      authenticated: false,
     }
     this.handleChange = this.handleChange.bind(this)
     this.toggle = this.toggle.bind(this)
     this.handleCounter = this.handleCounter.bind(this)
+    this.login = this.login.bind(this)
   }
 
   componentWillMount () {
@@ -34,6 +37,12 @@ class App extends Component {
   }
   componentDidUpdate () {
     console.log('App: componentDidUpdate')
+  }
+  static getDerivedStateFromProps (nextProps, prevState) {
+    console.log('App: getDerivedStateFromProps')
+  }
+  getSnapshotBeforeUpdate (prevProps, prevState) {
+    console.log('App: getSnapshotBeforeUpdate')
   }
   
 
@@ -55,6 +64,10 @@ class App extends Component {
     this.setState((state) => { return { counter: state.counter + 1 } })
   }
 
+  login() {
+    this.setState({ authenticated: true });
+  }
+
   render() {
     console.log('App: render')
     let persons = null;
@@ -71,9 +84,12 @@ class App extends Component {
       <>
         <h1>Hello World</h1>
         <p>{this.state.counter}</p>
+        <button onClick={this.login}>Log In</button>
         <button onClick={this.handleCounter}>Counter</button>
         <button className={btnClass} onClick={this.toggle}>Click</button>
-        {persons}
+        <AuthContext.Provider value={this.state.authenticated}>
+          {persons}
+        </AuthContext.Provider>
       </>
     );
   }
