@@ -15,7 +15,8 @@ class Contacts extends Component {
       showDetails: false,
       showData: {},
       btnValue: 'Submit',
-      editIndex: undefined
+      editIndex: undefined,
+      nameToggler: null
     };
 
     this.handleSearch = this.handleSearch.bind(this);
@@ -25,6 +26,7 @@ class Contacts extends Component {
     this.showEdit = this.showEdit.bind(this);
     this.removeItem = this.removeItem.bind(this);
     this.showContactDetails = this.showContactDetails.bind(this);
+    this.nameSort = this.nameSort.bind(this);
   }
 
 
@@ -136,17 +138,66 @@ class Contacts extends Component {
   }
 
 
+
+  ASCCompare(a, b) {
+    const nameA = a.name.toUpperCase();
+    const nameB = b.name.toUpperCase();
+  
+    let comparison = 0;
+    if (nameA > nameB) {
+      comparison = 1;
+    } else if (nameA < nameB) {
+      comparison = -1;
+    }
+    return comparison;
+  }
+
+  DESCompare(a, b) {
+    const nameA = a.name.toUpperCase();
+    const nameB = b.name.toUpperCase();
+  
+    let comparison = 0;
+    if (nameA > nameB) {
+      comparison = 1;
+    } else if (nameA < nameB) {
+      comparison = -1;
+    }
+    return comparison * -1;
+  }
+  
+
+
+
+  nameSort() {
+    const list = [...this.state.searchList];
+    if (this.state.nameToggler === 'DEC') {      
+      let newList = list.sort(this.DESCompare);
+      this.setState({
+        nameToggler: 'ASC',
+        searchList: newList
+      });
+    } else {
+      let newList = list.sort(this.ASCCompare);
+      this.setState({
+        nameToggler: 'DEC',
+        searchList: newList
+      });
+    }
+  }
+
+
+
   render() {
     return (
       <div>
         <h1>Contact List</h1>
-        <input type="text" placeholder="Search" name="search" className="form-control" style={{width: '250px', margin: '0 auto', marginBottom: '20px'}}aria-describedby="search" value={this.state.search} onChange={this.handleSearch} />
+        <input type="text" placeholder="Search" name="search" className="form-control" style={{ width: '250px', margin: '0 auto', marginBottom: '20px' }} aria-describedby="search" value={this.state.search} onChange={this.handleSearch} />
         <div className={ContactStyle.listDiv}>
           <table className="table">
             <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">Name</th>
+                <th scope="col" className={ContactStyle.pointerCursor} onClick={this.nameSort}>Name {this.state.nameToggler === 'ASC' ? <span><i className="fas fa-angle-up"></i></span> : this.state.nameToggler === 'DEC' ? <span><i className="fas fa-angle-down"></i></span> : null}  </th>
                 <th scope="col">Number</th>
                 <th scope="col">Actions</th>
               </tr>
@@ -154,7 +205,7 @@ class Contacts extends Component {
             <tbody>
               {
                 this.state.searchList.map((val, ind) => {
-                  return <tr key={ind} onClick={() => this.showContactDetails(ind)} className={ContactStyle.tableRow}>
+                  return <tr key={ind} onClick={() => this.showContactDetails(ind)} className={ContactStyle.pointerCursor}>
                     <th scope="row">{ind + 1}</th>
                     <td>{val.name}</td>
                     <td>{val.number}</td>
