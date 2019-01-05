@@ -142,7 +142,7 @@ class Contacts extends Component {
   ASCCompare(a, b) {
     const nameA = a.name.toUpperCase();
     const nameB = b.name.toUpperCase();
-  
+
     let comparison = 0;
     if (nameA > nameB) {
       comparison = 1;
@@ -155,7 +155,7 @@ class Contacts extends Component {
   DESCompare(a, b) {
     const nameA = a.name.toUpperCase();
     const nameB = b.name.toUpperCase();
-  
+
     let comparison = 0;
     if (nameA > nameB) {
       comparison = 1;
@@ -164,13 +164,13 @@ class Contacts extends Component {
     }
     return comparison * -1;
   }
-  
+
 
 
 
   nameSort() {
     const list = [...this.state.searchList];
-    if (this.state.nameToggler === 'DEC') {      
+    if (this.state.nameToggler === 'DEC') {
       let newList = list.sort(this.DESCompare);
       this.setState({
         nameToggler: 'ASC',
