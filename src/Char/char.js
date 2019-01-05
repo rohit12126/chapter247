@@ -15,11 +15,8 @@ class Char extends Component {
 // }
 
 static getDerivedStateFromProps(nextProps, prevState) {
-    console.log(nextProps);
-    console.log(prevState);
     let newData = [...prevState.data];
     newData = nextProps.name.split('');
-    console.log(newData);
     return {
       data: newData
     };
@@ -35,7 +32,6 @@ static getDerivedStateFromProps(nextProps, prevState) {
                 <ul>
                     {
                     this.state.data.map((data, index) => {
-                        console.log(data);
                         return <li onClick={() => this.removeChar(index)} key={index} className={CharStyleModule.charStyle}>{data}</li>
                     })
                     }
