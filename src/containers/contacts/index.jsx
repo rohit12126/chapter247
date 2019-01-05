@@ -92,7 +92,7 @@ class Contacts extends Component {
         name: this.state.name,
         number: this.state.number
       });
-      this.setState({ contactList: newList, addContactForm: false, name: '', number: '' });
+      this.setState({ contactList: newList, searchList: newList, addContactForm: false, name: '', number: '' });
     } else if (this.state.btnValue === 'Edit') {
       let newList = [...this.state.contactList];
       if (this.state.editIndex > -1) {
@@ -125,7 +125,7 @@ class Contacts extends Component {
     if (index > -1) {
       let newList = [...this.state.contactList];
       newList.splice(index, 1);
-      this.setState({ contactList: newList });
+      this.setState({ contactList: newList, searchList: newList });
     }
   }
 
