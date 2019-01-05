@@ -16,24 +16,25 @@ class AddEmployee extends Component{
                                         type="text"
                                         name="name"
                                         value={this.props.name}
-                                        onChange={(e) =>this.props.handleChange}
+                                        onChange={this.props.handleChange}
                                     />
                                 </FormGroup>
                                 <FormGroup>
                                 Position: <FormControl
                                         type="text"
-                                        name="position"
+                                        name="Position"
                                         value={this.props.position}
-                                        onChange={(e) =>this.props.handleChange}
+                                        onChange={this.props.handleChange}
  
                                     />
                                 </FormGroup>
-                                <FormGroup>s
-                                Contact Number :<FormControl
+                                <FormGroup>
+                                Contact Number :
+                                    <FormControl
                                         type="text"
                                         name="contactNumber"
                                         value={this.props.contactNumber}
-                                        onChange={(e) =>this.props.handleChange}
+                                        onChange={this.props.handleChange}
                                      />
                                 </FormGroup>
                                 <FormGroup>
@@ -41,10 +42,10 @@ class AddEmployee extends Component{
                                         type="text"
                                         name="emailId"
                                         value={this.props.emailId}
-                                        onChange={(e) =>this.props.handleChange}
+                                        onChange={this.props.handleChange}
                                      />
                                 </FormGroup>
-                                <Button onClick={this.handelSubmit}>Submit</Button>
+                                <Button onClick={this.props.handelSubmit}>Submit</Button>
                             </form>
                         </Panel.Body>
                      </Panel>

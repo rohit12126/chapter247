@@ -68,8 +68,8 @@ class EmployeeList extends Component{
                 emailId:"marry@gmail.com"
             }
         ],
-        name:"",
-            position:"",
+            name:"",
+            Position:"",
             contactNumber:"",
             emailId:"",
             status:false,
@@ -110,6 +110,9 @@ class EmployeeList extends Component{
         });
     }
     handleChange = (e) => {
+        console.log('e.target.value');
+        console.log(e.target.value);
+        console.log('e.target.value');
         this.setState({
              [e.target.name]: e.target.value,
         });
@@ -126,18 +129,20 @@ class EmployeeList extends Component{
     }
     
     handelSubmit = (e) => {
+        console.log("form submitted")
         e.preventDefault();
-        const {name, position,contactNumber,emailId } = this.state
-        let newList = [...this.state.contactList];
+        const {name, Position,contactNumber,emailId } = this.state
+        console.log(name);
+        let newList = [...this.state.data];
         newList.push({
-            name, position,contactNumber,emailId
+            name, Position,contactNumber,emailId
         });
         this.setState({ 
             data: newList, 
             addContactForm: false, 
             showList:true,
             name: '', 
-            position:"",
+            Position:"",
             contactNumber:"",
             emailId,
         });
@@ -164,7 +169,7 @@ class EmployeeList extends Component{
                 {
                     this.state.addContactForm ? 
                         <AddEmployee 
-                            handleChange = {this.handleInputs}
+                            handleChange = {this.handleChange}
                             handelSubmit = {this.handelSubmit}
                         />
                     : ''
