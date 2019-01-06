@@ -1,6 +1,20 @@
 import React,{Component} from 'react';
+import * as jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 class Dashboard extends Component{
+    printDocument = () => {
+        const input = document.getElementById('divToPrint');
+        html2canvas(input)
+          .then((canvas) => {
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF();
+            pdf.addImage(imgData, 'JPEG', 0, 0);
+            // pdf.output('dataurlnewwindow');
+            pdf.save("download.pdf");
+          })
+        ;
+    }
     render(){
         const data = this.props.employee.map((element, index) => {
             return <tr key = {index}>
@@ -11,7 +25,8 @@ class Dashboard extends Component{
         return(
             <div>
                 <button type="button" className="btn btn-primary" onClick={(e) => this.props.handleAdd(e)}>Add contact</button>
-                <table>
+                <button type="button" className="btn btn-primary" onClick={this.printDocument}>Export Pdf</button>
+                <table id="divToPrint">
                     <tr>
                         <th>Name</th>
                         <th>Action</th>

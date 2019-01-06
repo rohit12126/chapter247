@@ -92,8 +92,9 @@ class EmployeeList extends Component{
         });
     }
     handleInputs = (e) => {
+        console.log("hfshgff");
         this.setState({
-             [e.target.name]: e.target.value,
+            [e.target.name]: e.target.value,
         });
     }
     handleSearch = (e) => {
@@ -110,7 +111,7 @@ class EmployeeList extends Component{
         e.preventDefault();
         console.log('handleAdd')
         const {name, designation, age } = this.state
-        let newList = [...this.state.contactList];
+        let newList = [...this.state.employee];
         newList.push({
             name,
             designation,

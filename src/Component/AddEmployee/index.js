@@ -2,10 +2,10 @@ import React from 'react';
 
 const AddEmployee = (props) => {
     return <div>
-        <form onSubmit={(e) => props.handelSubmit}>
+        <form onSubmit={props.handelSubmit}>
             <div className="form-group">
                 <label>Name</label>
-                <input type="text" className="form-control" placeholder="Enter name" value={props.name} onChange={(e) => props.handleInputs} name="name" />
+                <input type="text" className="form-control" placeholder="Enter name" value={props.name} onChange={ props.handleInputs} name="name" />
             </div>
             <div className="form-group">
                 <label>Designation</label>
