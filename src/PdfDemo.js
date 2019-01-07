@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
 import * as jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 // download html2canvas and jsPDF and save the files in app/ext, or somewhere else
@@ -7,10 +7,6 @@ import html2canvas from 'html2canvas';
  
  
 export default class PdfDemo extends Component {
-  constructor(props) {
-    super(props);
-  }
- 
   printDocument() {
     const input = document.getElementById('divToPrint');
     html2canvas(input)
