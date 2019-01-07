@@ -34,7 +34,7 @@ class App extends Component {
     return (
       <div className="App">
         <h1>Hello World</h1>
-        <button onClick={this.handleClick}>Click</button>
+        <button onClick={this.handleClick}>Clickdsfdsf</button>
         {persons}
       </div>
     );
