@@ -30,3 +30,16 @@
     transform: rotate(360deg);
   }
 }
+button{
+  padding: 10px;
+  margin-left: 5px;
+}
+.text-right{
+  float: right;
+}
+.hide{
+  display: none;
+}
+.show{
+  display: block;
+}
