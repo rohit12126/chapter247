@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import Person from './Persons/Person';
-import PersonDetail from './Persons/PersonDetail';
+import Person from './Person/Person';
+import PersonDetail from './Person/PersonDetail';
 
 let persons = [
   { id: '1', name: 'Rohit', age: 28 },
