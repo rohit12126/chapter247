@@ -150,6 +150,7 @@ class EmployeeList extends Component{
     render(){
         return(
             <div>
+                <h2 className="text-center">Employee Information</h2>
                 <input type="text" placeholder="Search" name="search" className="form-control" style={{width: '250px', marginBottom: '20px'}} aria-describedby="search" value={this.state.search} onChange={this.handleSearch} />
                 {
                     this.state.showList ? 
