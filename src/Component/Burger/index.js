@@ -4,12 +4,24 @@ import PropTypes from 'prop-types';
 
 class Burger extends Component {
     render(){
+        let transformedIngredients = Object.keys(this.props.ingredients) 
+            .map(ing => {  
+                return [...Array(this.props.ingredients[ing])].map((_, i) => {
+                    return <BurgerIngredients key={ing + i} type={ing} />; 
+                });
+            })
+            .reduce((arr, el) => { 
+                return arr.concat(el);
+            }, [] //initial value
+            );
+        if (transformedIngredients.length === 0) {
+            transformedIngredients = <p>Please add some ingredients!</p>
+        }
         console.log(this.props.ingredients);
         return(
             <>
                 <BurgerIngredients type="breadTop"/>
-                <BurgerIngredients type="cheese"/>
-                <BurgerIngredients type="salad"/>
+                {transformedIngredients}
                 <BurgerIngredients type="breadBottom"/>
             </>
         )
