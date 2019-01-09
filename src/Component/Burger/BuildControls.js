@@ -1,24 +1,24 @@
 import React from 'react';
 import './../BurgerBuildControl/BurgerBuildControl.css';
 import BurgerBuildControl from './../BurgerBuildControl/BurgerBuildControl';
-
-const controls = [
-    { label: 'Salad', type: 'salad' },
-    { label: 'Bacon', type: 'bacon' },
-    { label: 'Cheese', type: 'cheese' },
-    { label: 'Meat', type: 'meat' },
-];
+import { BurgerIngredients } from './../../constants/BurgerIngredients';
 
 const BuildControls = (props) => (
     <div className={"BuildControls"}>
-        {controls.map(element => (
+        <p><strong>Total Price: {props.totalPrice ? props.totalPrice.toFixed(2) : props.totalPrice}</strong></p>
+        {BurgerIngredients.map(element => (
             <BurgerBuildControl
                 key={element.label}
                 label={element.label}
-                handleAdd={() => props.handleAdd(element.type)}
-                handleRemove={() => props.handleRemove(element.type)}
+                rate={element.rate}
+                handleAdd={() => props.handleAdd(element.type, element.rate)}
+                handleRemove={() => props.handleRemove(element.type, element.rate)}
+                disabled = {props.disableding[element.type]}
             />
         ))}
+        <button className='btn btn-success' disabled={props.totalPrice ? false : true} onClick={props.handleOrder}>
+            Order Now!
+        </button>
     </div>
 )
 

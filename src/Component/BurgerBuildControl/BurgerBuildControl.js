@@ -2,9 +2,12 @@ import React from 'react';
 
 import './BurgerBuildControl.css';
 
-const BurgerBuildControl = (props) => (
+const BurgerBuildControl = (props) => {
+    console.log(props);
+    return (
     <div className={'BuildControl'}>
         <div className={'Label'}>{props.label}</div>
+        <div className={'Label'}>{props.rate}</div>
         <button
             className={'Less'}
             onClick={props.handleRemove}
@@ -13,6 +16,6 @@ const BurgerBuildControl = (props) => (
             className={'More'}
             onClick={props.handleAdd}>+</button>
     </div>
-);
-
+    );
+}
 export default BurgerBuildControl;

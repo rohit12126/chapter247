@@ -15,15 +15,15 @@ class Burger extends Component {
             }, [] //initial value
             );
         if (transformedIngredients.length === 0) {
-            transformedIngredients = <p>Please add some ingredients!</p>
+            transformedIngredients = <p className="">Please add some ingredients!</p>
         }
         console.log(this.props.ingredients);
         return(
-            <>
+            <div className="Burger">
                 <BurgerIngredients type="breadTop"/>
                 {transformedIngredients}
                 <BurgerIngredients type="breadBottom"/>
-            </>
+            </div>
         )
     }
 }

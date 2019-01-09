@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
-import Dashboard from './../../Component/Dashboard';
-import EmployeeDetail from './../../Component/EmployeeDetail';
-import AddEmployee from './../../Component/AddEmployee';
+import Dashboard from './../../component/Dashboard';
+import EmployeeDetail from './../../component/EmployeeDetail';
+import AddEmployee from './../../component/AddEmployee';
 
 class EmployeeList extends Component{
     constructor(props   ){

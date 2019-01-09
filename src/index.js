@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import Assignment from './Assignment/Assignment';
-import EmployeeList from './Container/EmployeeList';
+import EmployeeList from './container/EmployeeList';
 import PdfDemo from './PdfDemo';
-import BurgerBuilder from './Container/BurgerBuilder';
+import BurgerBuilder from './container/BurgerBuilder';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(<BurgerBuilder />, document.getElementById('root'));

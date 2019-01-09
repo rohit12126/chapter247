@@ -1,7 +1,9 @@
 import React,{ Component } from 'react';
-import Layout from '../../Component/Layout';
-import Burger from '../../Component/Burger';
-import BuildControls from '../../Component/Burger/BuildControls';
+import Layout from '../../component/Layout';
+import Burger from '../../component/Burger';
+import BuildControls from '../../component/Burger/BuildControls';
+import OrderSummary from './../../component/OrderSummmary';
+import { Modal } from 'react-bootstrap';
 
 class BurgerBulder extends Component{
     constructor(){
@@ -10,27 +12,94 @@ class BurgerBulder extends Component{
             ingredients : {
                 cheese:0,
                 salad:0,
-                Peanut:0
+                peanut:0,
+                mushrooms:0
+            },
+            totalPrice:0,
+            show:false
+        }       
+    }
+    handleAdd = (type, rate) => {
+        this.setState((state) => {
+            return {
+                ingredients: {
+                    ...state.ingredients,
+                    [type]: state.ingredients[type] + 1,
+                },
+                totalPrice: state.totalPrice + rate
             }
+        });
+    }
+    handleRemove = (type, rate) => {
+        if(this.state.ingredients[type] > 0){
+            this.setState((state) => {
+                return {
+                    ingredients: {
+                        ...state.ingredients,
+                        [type]: state.ingredients[type] - 1,
+                    },
+                    totalPrice: state.totalPrice - rate
+                }
+            });
         }
     }
-    handleAdd= (type)=>{
-        const {ingredients} = this.state
-        ingredients[type] = ingredients[type] + 1;
-        this.setState({ingredients});
+    handleOrder = () => {
+        console.log("show");
+        this.setState({
+            show:true
+        })
     }
-    handleRemove =(type)=>{
-        const {ingredients} = this.state
-        ingredients[type] = ingredients[type] ? ingredients[type] - 1 : ingredients[type]
-        this.setState({ingredients});
+    handleHide= () => {
+        console.log("show");
+        this.setState({
+            show:false
+        })
+    }
+    cancel = () => {
+        console.log("show");
+        this.setState({ show: false })
+    }
+
+    checkout = () => {
+        alert('Order placed');
     }
     render(){
+        let disabled = [];
+        Object.keys(this.state.ingredients).map((element, index) => {
+            return disabled[element] = this.state.ingredients[element] <= 0
+        })
+        console.log(disabled)
         return(
             <>
                 <Layout>
-                    <div>Burger</div>
+                    <Modal
+                        show={this.state.show}
+                        onHide={this.handleHide}
+                        container={this}
+                        aria-labelledby="contained-modal-title"
+                        >
+                        <Modal.Header closeButton>
+                            <Modal.Title id="contained-modal-title">
+                            Order Details
+                            </Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <OrderSummary 
+                                ingredients = {this.state.ingredients}
+                                close={this.cancel}
+                                checkout={this.checkout}
+                                totalPrice={this.state.totalPrice}
+                            />
+                        </Modal.Body>
+                    </Modal>
                     <Burger ingredients={this.state.ingredients}/>
-                    <BuildControls handleAdd ={this.handleAdd} handleRemove={this.handleRemove}/>
+                    <BuildControls 
+                        handleAdd = {this.handleAdd} 
+                        handleRemove = {this.handleRemove} 
+                        disableding = {disabled}
+                        totalPrice = {this.state.totalPrice}
+                        handleOrder = {this.handleOrder}
+                    />
                 </Layout>
             </>
         )
