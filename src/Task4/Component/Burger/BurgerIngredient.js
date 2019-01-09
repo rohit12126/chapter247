@@ -16,6 +16,10 @@ const BurgerIngredient = (props) => {
         case 'peanut':
             data = <div className="peanut">peanut</div>
             break;
+            case 'bacon':
+            data = <div className="bacon">bacon</div>
+            break;
+        
         case 'breadTop':
             data = <div className="bread-top">BreadTop</div>
             break;
