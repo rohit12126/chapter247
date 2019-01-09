@@ -3,6 +3,7 @@ import Persons from '../components/Persons';
 import './App.css';
 import withClass from '../hoc/withClass';
 import {AuthContext} from '../context';
+import Posts from './Posts';
 
 class App extends Component {
   constructor() {
@@ -90,6 +91,7 @@ class App extends Component {
         <AuthContext.Provider value={this.state.authenticated}>
           {persons}
         </AuthContext.Provider>
+        <Posts />
       </>
     );
   }
