@@ -15,6 +15,9 @@ import {
 import { FieldGroup } from "react-bootstrap";
 import { CSVLink, CSVDownload } from "react-csv";
 import { Document, Page } from "react-pdf";
+import axios from "axios";
+import * as jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 const ref = React.createRef();
 
@@ -36,6 +39,9 @@ class App extends Component {
       editIndex: undefined,
       filtered: [],
       search: "",
+      data: [],
+      data_search: "",
+      showData: true
     };
     this.handleChange = this.handleChange.bind(this);
     this.changeInput = this.changeInput.bind(this);
@@ -46,6 +52,8 @@ class App extends Component {
     this.editEmployee = this.editEmployee.bind(this);
     this.handleInputs = this.handleInputs.bind(this);
     this.handleChangeSearch = this.handleChangeSearch.bind(this);
+    // this.downloadPdf = this.downloadPdf.bind(this);
+    this.onSearchData = this.onSearchData.bind(this);
   }
 
   handleChange(e) {
@@ -54,24 +62,17 @@ class App extends Component {
     });
   }
 
-  componentWillMount() {
-    console.log("App: componentWillMount");
-  }
-
   shouldComponentUpdate() {
     console.log("App: shouldComponentUpdate");
     return true;
   }
-  componentWillUpdate() {
-    console.log("App: componentWillUpdate");
-  }
+
   componentDidUpdate() {
     console.log("App: componentDidUpdate");
     console.log(this.state.employees);
   }
 
   componentDidMount() {
-    console.log("App: componentDidMount");
     let emp = [...this.state.employees];
     emp = [
       {
@@ -101,6 +102,36 @@ class App extends Component {
       employees: emp,
       searchList: emp
     });
+  }
+
+  printPDF = () => {
+    const input = document.getElementById('divToPrint');
+    html2canvas(input)
+      .then((canvas) => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF();
+        pdf.addImage(imgData, 'JPEG', 0, 0);
+        // pdf.output('dataurlnewwindow');
+        pdf.save("employee.pdf");
+      })
+    ;
+}
+
+  onSearchData() {
+    axios
+      .get("https://api.unsplash.com/search/photos", {
+        params: { query: this.state.data_search },
+        headers: {
+          Authorization:
+            "Client-ID c94079fa3fdda6ffb6ccee0720b80531ef1329d73bbcea2a44e2622b24c46dec"
+        }
+      },
+      this.setState({showData: false})
+      )
+      .then(response => {
+        this.setState({showData: true})
+        this.setState({ data: response.data.results });
+      });
   }
 
   handleInputs(e) {
@@ -183,16 +214,26 @@ class App extends Component {
   }
 
   handleChangeSearch(e) {
-    console.log(e.target.value)
+    console.log(e.target.value);
     let currentList = [];
     let newList = [];
 
     if (e.target.value !== "") {
       let currentList = [...this.state.searchList];
-      console.log(currentList)
-      currentList = currentList.filter( function(item){
-        return (item.fname.toLowerCase().search(e.target.value.toLowerCase()) !== -1) || (item.lname.toLowerCase().search(e.target.value.toLowerCase()) !== -1) || (item.address.toLowerCase().search(e.target.value.toLowerCase()) !== -1) || (item.email.toLowerCase().search(e.target.value.toLowerCase()) !== -1) || (item.contact.toLowerCase().search(e.target.value.toLowerCase()) !== -1);
-         console.log('After search:' + this.currentList)
+      console.log(currentList);
+      currentList = currentList.filter(function(item) {
+        return (
+          item.fname.toLowerCase().search(e.target.value.toLowerCase()) !==
+            -1 ||
+          item.lname.toLowerCase().search(e.target.value.toLowerCase()) !==
+            -1 ||
+          item.address.toLowerCase().search(e.target.value.toLowerCase()) !==
+            -1 ||
+          item.email.toLowerCase().search(e.target.value.toLowerCase()) !==
+            -1 ||
+          item.contact.toLowerCase().search(e.target.value.toLowerCase()) !== -1
+        );
+        console.log("After search:" + this.currentList);
       });
       this.setState({
         [e.target.fname]: e.target.value,
@@ -207,17 +248,6 @@ class App extends Component {
     }
   }
 
-  // handleSearch(e) {
-  //   let updatedList = [...this.state.contactList];
-  //   updatedList = updatedList.filter(function (item) {
-  //     return (item.name.toLowerCase().search(e.target.value.toLowerCase()) !== -1) || (item.number.toLowerCase().search(e.target.value.toLowerCase()) !== -1);
-  //   });
-  //   this.setState({
-  //     [e.target.name]: e.target.value,
-  //     searchList: updatedList
-  //   });
-  // }
-  
   handleShow = () => {
     console.log("Its working!");
     this.setState({ show: true });
@@ -234,7 +264,9 @@ class App extends Component {
     this.setState({ name: n.join("") });
   }
 
+
   render() {
+    console.log(this.state.data);
     return (
       <div>
         <div className="App">
@@ -257,22 +289,20 @@ class App extends Component {
           <div className="container">
             <div className="row">
               <div className="col-md-12">
-                <h4>Employee Datatable</h4>
+                <h4>Employee Datatable From Local Array</h4>
 
                 <div className="App">
                   <input
                     type="text"
                     className="input"
                     placeholder="Search..."
-                    name = "search"
+                    name="search"
                     className="form-control"
-                    aria-describedby="search" 
-                    onChange={this.handleChangeSearch} 
+                    aria-describedby="search"
+                    onChange={this.handleChangeSearch}
                   />
                   <ul />
                 </div>
-
-    
 
                 <td>
                   <p data-placement="top" data-toggle="tooltip" title="Add">
@@ -304,7 +334,7 @@ class App extends Component {
                       <th>Delete</th>
                     </thead>
 
-                    <tbody>
+                    <tbody id="divToPrint" className="mt4">
                       {this.state.searchList.map((employee, index) => {
                         return (
                           <tr>
@@ -357,11 +387,25 @@ class App extends Component {
                       })}
                     </tbody>
                   </table>
-                    <div>
-                  <i class="fa fa-file-excel-o"></i>
-                          <h4> Export As:</h4>
-                          <CSVLink data={this.state.employees}> Download in CSV File Format </CSVLink>
-                    </div>
+                  <div>
+                    <i class="fa fa-file-excel-o" />
+                    <h4> Export As:</h4>
+                    <CSVLink className="btn btn-warning" data={this.state.employees}>
+                      {" "}
+                      Download in CSV File Format{" "}
+                    </CSVLink>
+                  </div>
+                  <br/>
+                  <div>
+                    <button className="btn btn-primary" type="button" onClick={this.printPDF}>
+                      Download in PDF format
+                    </button>
+                  </div>
+
+                  {/* <div id="divToPrint" className="mt4">
+                    <div>Note: Here the dimensions of div are same as A4</div>
+                    <div>You Can add any component here</div>
+                  </div> */}
                   <div>
                     <div className="static-modal">
                       <div>
@@ -460,6 +504,73 @@ class App extends Component {
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <br />
+        <br />
+        <div className="App">
+          <div className="container">
+            <div className="row">
+              <div className="col-md-12">
+                <h4>
+                  API Datatable (Enter -
+                  'cars', 'bikes', 'mountains', 'trees', 'buildings'){" "}
+                </h4>
+                <div className="App">
+                  <input
+                    type="text"
+                    className="input"
+                    placeholder="Search..."
+                    name="search"
+                    className="form-control"
+                    aria-describedby="search"
+                    value={this.state.data_search}
+                    onChange={e =>
+                      this.setState({ data_search: e.target.value })
+                    }
+                  />
+                  <ul />
+                </div>
+
+                <td>
+                  <p data-placement="top" data-toggle="tooltip" title="Add">
+                    <button
+                      onClick={this.onSearchData}
+                      className="btn btn-warning btn-xs"
+                      data-title="Add"
+                      data-toggle="modal"
+                      data-target="#add"
+                    >
+                      Search
+                    </button>
+                  </p>
+                </td>
+                
+                {
+                  !this.state.showData ?  
+                  <div>   
+                  <br/> <br/><br/><br/><br/>
+                  <div class="ui active centered inline loader"></div></div> :
+                
+                <div className="col-md-12">
+                  {this.state.data.map((response, index) => {
+                    console.log(response);
+                    return (
+                      <img
+                        style={{ padding: "4px", borderRadius: '50%'}}
+                        className="ui medium circular image"
+                        src={response.urls.regular}
+                        height="200px"
+                        width="200px"
+                      />
+                    );
+                  })}
+                </div>
+                }
+                
               </div>
             </div>
           </div>
