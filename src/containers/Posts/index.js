@@ -21,6 +21,14 @@ class Posts extends Component {
         this.setState({ currentPost: id });
     }
 
+    handlePost = () => {
+        axios.post('https://jsonplaceholder.typicode.com/posts', {
+            user: 'test'
+        }).then((response) => {
+            console.log('111111111111', response);
+        })
+    }
+
     render() {
         const posts = this.state.posts.map(post => (
             <Post key={post.id} title={post.title} handleClick={() => {
@@ -29,6 +37,7 @@ class Posts extends Component {
         )
         console.log(this.state.currentPost);
         return(<div>
+            <button onClick={this.handlePost}>Post</button>
             <PostDetail post={this.state.currentPost} />
             {posts}
         </div>)

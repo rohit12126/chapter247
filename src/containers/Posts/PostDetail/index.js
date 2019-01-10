@@ -6,18 +6,22 @@ class PostDetail extends Component {
         post: null,
     }
 
-    componentDidUpdate = (props) => {
-        console.log('1111111111111111111', props)
-        if (props.post) {
-            axios.get(`https://jsonplaceholder.typicode.com/posts/${props.post}`)
-                .then(response => {
-                    this.setState({ post: response.data })
-                })
+    componentDidUpdate = () => {
+        if (this.props.post) {
+            if (!this.state.post || (this.state.post.id !== this.props.post)) {
+                axios.get(`https://jsonplaceholder.typicode.com/posts/${this.props.post}`)
+                    .then(response => {
+                        this.setState({ post: response.data.body })
+                    })
+                    .catch(error => {
+                        console.log('33333333 ',error)
+                     })
+            }
         }
     }
 
     render() {
-        return(
+        return (
             <div>{this.state.post}</div>
         )
     }
