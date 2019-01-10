@@ -9,23 +9,25 @@ const controls = [
     { label: 'Peanut', type: 'peanut' },
 ];
 
-class BuildControls extends Component {
-    render(){
-        console.log(this.props.totalPrice)
+const BuildControls =(props)=>{   
         return(
-    <div className={"BuildControls"}>
+    <div className={"BuildControls"}>   
+       <div><strong>Total Price: {props.totalPrice.toFixed(2)}</strong></div>
         {controls.map(element => (
             <BurgerBuildControl
                 key={element.label}
                 label={element.label}
-                handleAdd={() => this.props.handleAdd(element.type)}
-                handleRemove={() => this.props.handleRemove(element.type)}
-                totalPrice={this.props.totalPrice}
+                handleAdd={() => props.handleAdd(element.type)}
+                handleRemove={() => props.handleRemove(element.type)}
             />
         ))}
+         <button className='OrderButton' disabled={!props.purchaseable} onClick={props.handleClick}>
+                Order Now!
+            </button>
     </div>
     )
 }
-}
+
+
 
 export default BuildControls;
