@@ -2,11 +2,14 @@ import React,{Component} from 'react';
 import Dashboard from './../../Component/Dashboard';
 import EmployeeDetail from './../../Component/EmployeeDetail';
 import AddEmployee from '../../Component/AddEmployee';
-
+import axios from 'axios'
 class EmployeeList extends Component{
     constructor(props   ){
         super(props);
         this.state = {
+            loading:true,
+            persons:[],
+            temp:'',
             data:[{
                 name:"Archana",
                 Position:"Fresher",
@@ -68,7 +71,6 @@ class EmployeeList extends Component{
                 emailId:"marry@gmail.com"
             }
         ],
-        persons:[],
             name:"",
             Position:"",
             contactNumber:"",
@@ -84,26 +86,28 @@ class EmployeeList extends Component{
         }
     }
     componentDidMount (){
-        axios.get('https://jsonplaceholder.typicode.com/user')
+        axios.get('https://jsonplaceholder.typicode.com/todos')
         .then(res => {
             const persons = res.data;
             this.setState({ persons });
           })
     }
-    
     handleDelete = (index) => {
-        let employeeList = [...this.state.data];
+        let employeeList = [...this.state.persons];
         employeeList.splice(index, 1);
-        this.setState({ data: employeeList });
+        this.setState({ persons: employeeList });
     }
     handleShow(element){
+        
+        console.log("this.state.persons")
         this.setState({
             showDetails:true,
-            employeeData:element,
+            temp:this.state.persons[element],
             showList:false
         })
     }
     handleBack = () => {
+        console.log("bk")
         this.setState({
             showDetails:false,
             employeeData:'',
@@ -128,7 +132,7 @@ class EmployeeList extends Component{
     }
     handleSearch = (event) => {
         this.setState({search:event.target.value})
-        var updatedList = [...this.state.data]
+        var updatedList = [...this.state.persons.title]
         console.log(updatedList)
         updatedList = updatedList.filter(function(item){
             return item.name.toLowerCase().search(
@@ -157,23 +161,37 @@ class EmployeeList extends Component{
         });
     }
     render(){
+        console.log(this.state.persons)
         return(
             <div>
                 <h2 className="text-center">Employee Information</h2>
-                <input type="text" placeholder="Search" name="search" className="form-control" style={{width: '250px', marginBottom: '20px'}} aria-describedby="search" value={this.state.search} onChange={this.handleSearch} />
-                {
+                <input t
+                    type="text"
+                    placeholder="Search" 
+                    name="search" 
+                    className="form-control" 
+                    style={{width: '250px', marginBottom: '20px'}} 
+                    aria-describedby="search"
+                    value={this.state.search} 
+                    onChange={this.handleSearch} 
+                />
+                    {
                     this.state.showList ? 
                         <Dashboard 
-                            data={this.state.persons} 
+                            //data={this.state.data} 
                             handelShow={this.handleShow.bind(this)} 
                             handleDelete={this.handleDelete.bind(this)} 
                             handleAdd={this.handleAdd}
+                            persons={this.state.persons}
                         /> 
                     : ('')
                 }
                 {
                     this.state.showDetails ? 
-                        <EmployeeDetail data={this.state.employeeData} handleBack={this.handleBack}/>
+                        <EmployeeDetail 
+                            data={this.state.temp} h
+                            handleBack={this.handleBack}
+                        />
                     : ''
                 }
                 {
