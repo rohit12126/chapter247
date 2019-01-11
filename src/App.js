@@ -516,8 +516,7 @@ class App extends Component {
             <div className="row">
               <div className="col-md-12">
                 <h4>
-                  API Datatable (Enter -
-                  'cars', 'bikes', 'mountains', 'trees', 'buildings'){" "}
+                  API Datatable (Enter <strong>Any Word </strong> of your choice!)
                 </h4>
                 <div className="App">
                   <input
