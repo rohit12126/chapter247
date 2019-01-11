@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import Dashboard from './../../component/Dashboard';
 import EmployeeDetail from './../../component/EmployeeDetail';
 import AddEmployee from './../../component/AddEmployee';
+import axios from 'axios';
 
 class EmployeeList extends Component{
     constructor(props   ){
@@ -54,6 +55,9 @@ class EmployeeList extends Component{
                     age: 15
                 },
             ],
+            users:'',
+            userId:'',
+            error:'',
             name: '',
             designation: '',
             age: '',
@@ -73,6 +77,7 @@ class EmployeeList extends Component{
         this.setState({
             showDetails:true,
             employeeData:element,
+            userId:element,
             showList:false
         })
     }
@@ -127,14 +132,39 @@ class EmployeeList extends Component{
             search: '',
         });
     }
+    componentDidMount(){
+        axios.get('https://jsonplaceholder.typicode.com/users').then(response => {
+            console.log(response.data);
+            this.setState({
+                users:response.data
+            })
+        }).catch(error => {
+            this.setState({
+                error:error
+            })
+        })
+    }
     render(){
         return(
             <div>
-                <input type="text" placeholder="Search" name="search" className="form-control" style={{width: '250px', margin: '0 auto', marginBottom: '20px'}} aria-describedby="search" value={this.state.search} onChange={this.handleSearch} />
+                <input 
+                    type="text" 
+                    placeholder="Search" 
+                    name="search" 
+                    className="form-control" 
+                    style={{
+                        width: '250px', 
+                        margin: '0 auto', 
+                        marginBottom: '20px'
+                    }} 
+                    aria-describedby="search" 
+                    value={this.state.search} 
+                    onChange={this.handleSearch} 
+                />
                 {
-                    this.state.showList ? 
+                    this.state.showList && this.state.users.length ? 
                         <Dashboard 
-                            employee={this.state.employee} 
+                            employee={this.state.users} 
                             handleClick={this.handleClick.bind(this)} 
                             handleDelete={this.handleDelete.bind(this)} 
                             handleAdd={this.handleAdd}
@@ -143,7 +173,11 @@ class EmployeeList extends Component{
                 }
                 {
                     this.state.showDetails ? 
-                        <EmployeeDetail employee={this.state.employeeData} handleBack={this.handleBack}/>
+                        <EmployeeDetail 
+                            employee={this.state.employeeData} 
+                            userId={this.state.userId}
+                            handleBack={this.handleBack}
+                        />
                     : ''
                 }
                 {
