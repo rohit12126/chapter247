@@ -10,67 +10,7 @@ class EmployeeList extends Component{
             loading:true,
             persons:[],
             temp:'',
-            data:[{
-                name:"Archana",
-                Position:"Fresher",
-                contactNumber:"1234567890",
-                emailId:"archana@gmail.com"
-            },
-            {
-                name:"Aayushi",
-                Position:"Junior Developer",
-                contactNumber:"1234567890",
-                emailId:"aayushi@gmail.com"
-            },
-            {
-                name:"Rohit",
-                Position:"Designer",
-                contactNumber:"1234567890",
-                emailId:"rohit@gmail.com"
-            },
-            {
-                name:"Rohit",
-                Position:"Senior Developer",
-                contactNumber:"1234567890",
-                emailId:"rohit@gmail.com"
-            },
-            {
-                name:"Manish",
-                Position:"Fresher",
-                contactNumber:"1234567890",
-                emailId:"Manish@gmail.com"
-            },
-            {
-                name:"Tushar",
-                Position:"Senior Developer",
-                contactNumber:"1234567890",
-                emailId:"tushar@gmail.com"
-            },
-            {
-                name:"Yash",
-                Position:"Senior Developer",
-                contactNumber:"1234567890",
-                emailId:"yash@gmail.com"
-            },
-            {
-                name:"Arpit",
-                Position:"Senior Developer",
-                contactNumber:"1234567890",
-                emailId:"arpit@gmail.com"
-            },
-            {
-                name:"Arpita",
-                Position:"Designer",
-                contactNumber:"1234567890",
-                emailId:"arpita@gmail.com"
-            },
-            {
-                name:"Marry",
-                Position:"Tester",
-                contactNumber:"1234567890",
-                emailId:"marry@gmail.com"
-            }
-        ],
+            
             name:"",
             Position:"",
             contactNumber:"",
@@ -86,7 +26,7 @@ class EmployeeList extends Component{
         }
     }
     componentDidMount (){
-        axios.get('https://jsonplaceholder.typicode.com/todos')
+        axios.get('https://jsonplaceholder.typicode.com/user')
         .then(res => {
             const persons = res.data;
             this.setState({ persons });
@@ -142,7 +82,6 @@ class EmployeeList extends Component{
     }
     
     handelSubmit = (e) => {
-        console.log("form submitted")
         e.preventDefault();
         const {name, Position,contactNumber,emailId } = this.state
         console.log(name);

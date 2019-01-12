@@ -2,77 +2,12 @@ import React,{Component} from 'react';
 import Dashboard from './../../Component/Dashboard';
 import EmployeeDetail from './../../Component/EmployeeDetail';
 import AddEmployee from '../../Component/AddEmployee';
-
+import axios from 'axios';
 class EmployeeList extends Component{
     constructor(props   ){
         super(props);
         this.state = {
-            data:[{
-                name:"Archana",
-                Position:"Fresher",
-                contactNumber:"1234567890",
-                emailId:"archana@gmail.com"
-            },
-            {
-                name:"Aayushi",
-                Position:"Junior Developer",
-                contactNumber:"1234567890",
-                emailId:"aayushi@gmail.com"
-            },
-            {
-                name:"Rohit",
-                Position:"Designer",
-                contactNumber:"1234567890",
-                emailId:"rohit@gmail.com"
-            },
-            {
-                name:"Rohit",
-                Position:"Senior Developer",
-                contactNumber:"1234567890",
-                emailId:"rohit@gmail.com"
-            },
-            {
-                name:"Manish",
-                Position:"Fresher",
-                contactNumber:"1234567890",
-                emailId:"Manish@gmail.com"
-            },
-            {
-                name:"Tushar",
-                Position:"Senior Developer",
-                contactNumber:"1234567890",
-                emailId:"tushar@gmail.com"
-            },
-            {
-                name:"Yash",
-                Position:"Senior Developer",
-                contactNumber:"1234567890",
-                emailId:"yash@gmail.com"
-            },
-            {
-                name:"Arpit",
-                Position:"Senior Developer",
-                contactNumber:"1234567890",
-                emailId:"arpit@gmail.com"
-            },
-            {
-                name:"Arpita",
-                Position:"Designer",
-                contactNumber:"1234567890",
-                emailId:"arpita@gmail.com"
-            },
-            {
-                name:"Marry",
-                Position:"Tester",
-                contactNumber:"1234567890",
-                emailId:"marry@gmail.com"
-            }
-        ],
         persons:[],
-            name:"",
-            Position:"",
-            contactNumber:"",
-            emailId:"",
             status:false,
             back:false,
             show:true,
@@ -84,35 +19,51 @@ class EmployeeList extends Component{
         }
     }
     componentDidMount (){
-        axios.get('https://jsonplaceholder.typicode.com/user')
+        console.log("bdjh");
+        axios.get('https://jsonplaceholder.typicode.com/users')
         .then(res => {
             const persons = res.data;
             this.setState({ persons });
           })
     }
     
-    handleDelete = (index) => {
-        let employeeList = [...this.state.data];
-        employeeList.splice(index, 1);
-        this.setState({ data: employeeList });
+    handleDelete = (id) => {
+        console.log("Hello")
+        axios.delete(`https://jsonplaceholder.typicode.com/users/${id}`)
+        .then(res => {console.log("**********" ,res)
+           
+            
+           })
+         .catch(function(error) {
+            console.log(error);
+            });
     }
     handleShow(element){
         this.setState({
             showDetails:true,
-            employeeData:element,
+            persons:element,
             showList:false
         })
     }
     handleBack = () => {
+        console.log("back")
         this.setState({
             showDetails:false,
-            employeeData:'',
+            
             showList:true,
             addContactForm:false
         })
     }
+    componentDidUpdate(){
+        axios.get('https://jsonplaceholder.typicode.com/users')
+        .then(res => {
+            const persons = res.data;
+            this.setState({ persons });
+          })
+
+    }
     handleAdd = () => {
-        this.setState({
+    this.setState({
           addContactForm: true,
           showDetails:false,
           showList:false
@@ -128,7 +79,7 @@ class EmployeeList extends Component{
     }
     handleSearch = (event) => {
         this.setState({search:event.target.value})
-        var updatedList = [...this.state.data]
+        var updatedList = this.state.persons["name"]
         console.log(updatedList)
         updatedList = updatedList.filter(function(item){
             return item.name.toLowerCase().search(
@@ -138,25 +89,26 @@ class EmployeeList extends Component{
     }
     
     handelSubmit = (e) => {
-        console.log("form submitted")
-        e.preventDefault();
-        const {name, Position,contactNumber,emailId } = this.state
-        console.log(name);
-        let newList = [...this.state.data];
-        newList.push({
-            name, Position,contactNumber,emailId
-        });
-        this.setState({ 
-            data: newList, 
-            addContactForm: false, 
-            showList:true,
-            name: '', 
-            Position:"",
-            contactNumber:"",
-            emailId,
-        });
+        console.log("hello")
+        axios.post('https://jsonplaceholder.typicode.com/users',{
+           data:{
+            name:'Archana',
+            username:'archana039',
+            email:"archana@gmail.com",
+            address:{}, 
+            phone:"1234567890",
+            websitetype:"",
+            company:{}
+         } })
+        .then(res => { console.log("@@@@@@@@@@@@@@@",res)
+            return res;
+          })
+        
+
+        
     }
     render(){
+        
         return(
             <div>
                 <h2 className="text-center">Employee Information</h2>
@@ -173,7 +125,7 @@ class EmployeeList extends Component{
                 }
                 {
                     this.state.showDetails ? 
-                        <EmployeeDetail data={this.state.employeeData} handleBack={this.handleBack}/>
+                        <EmployeeDetail data={this.state.persons} handleBack={this.handleBack}/>
                     : ''
                 }
                 {

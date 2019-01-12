@@ -7,10 +7,11 @@ const EmployeeDetail = (props) => {
 
     <div className="panel-body">
       <h5 className="panel-title">Employee Detail</h5><br/>
-      <p className="panel-text"><b>User Id:</b>{props.data.userid}</p>
       <p className="panel-text"><b>Id:</b>{props.data.id}</p>
-      <p className="panel-text"><b>Title:</b>{props.data.title}</p>
-      <p className="panel-text"><b>Completed:</b>{props.data.completed}</p>
+      <p className="panel-text"><b>Name:</b>{props.data.name}</p>
+      <p className="panel-text"><b>User Name:</b>{props.data.username }</p>
+      <p className="panel-text"><b>Email:</b>{props.data.email}</p>
+      <p className="panel-text"><b>Phone:</b>{props.data.phone}</p>
       <button onClick={props.handleBack}class="btn btn-primary">Back</button>
     </div>
   </div>

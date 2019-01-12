@@ -12,7 +12,7 @@ class AddEmployee extends Component{
                         <Panel.Body>
                             <form>
                                 <FormGroup>
-                                    Name:<FormControl
+                                    Id:<FormControl
                                         type="text"
                                         name="name"
                                         value={this.props.name}
@@ -20,7 +20,7 @@ class AddEmployee extends Component{
                                     />
                                 </FormGroup>
                                 <FormGroup>
-                                Position: <FormControl
+                                Name: <FormControl
                                         type="text"
                                         name="Position"
                                         value={this.props.position}
@@ -29,7 +29,7 @@ class AddEmployee extends Component{
                                     />
                                 </FormGroup>
                                 <FormGroup>
-                                Contact Number :
+                                UserName :
                                     <FormControl
                                         type="text"
                                         name="contactNumber"
@@ -38,7 +38,15 @@ class AddEmployee extends Component{
                                      />
                                 </FormGroup>
                                 <FormGroup>
-                                EmailId: <FormControl
+                                Phone Number: <FormControl
+                                        type="text"
+                                        name="phone"
+                                        value={this.props.phone}
+                                        onChange={this.props.handleChange}
+                                     />
+                                </FormGroup>
+                                <FormGroup>
+                                Email: <FormControl
                                         type="text"
                                         name="emailId"
                                         value={this.props.emailId}
