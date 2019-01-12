@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import * as jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { DropdownButton, MenuItem } from 'react-bootstrap'; 
+import {Modal} from 'react-bootstrap';
 //import './Dashboard.css';
 
 class MultiSelect extends Component {

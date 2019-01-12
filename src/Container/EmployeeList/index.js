@@ -4,6 +4,7 @@ import MultiSelect from './../../component/Multiselect';
 import EmployeeDetail from './../../component/EmployeeDetail';
 import AddEmployee from './../../component/AddEmployee';
 import axios from './../../component/axios';
+import {Modal} from 'react-bootstrap';
 
 class EmployeeList extends Component{
     constructor(props   ){
