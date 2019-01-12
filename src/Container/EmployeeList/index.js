@@ -1,8 +1,9 @@
 import React,{Component} from 'react';
 import Dashboard from './../../component/Dashboard';
+import MultiSelect from './../../component/Multiselect';
 import EmployeeDetail from './../../component/EmployeeDetail';
 import AddEmployee from './../../component/AddEmployee';
-import axios from 'axios';
+import axios from './../../component/axios';
 
 class EmployeeList extends Component{
     constructor(props   ){
@@ -132,6 +133,21 @@ class EmployeeList extends Component{
             search: '',
         });
     }
+    handleMultipleDelete = (checked) => {
+        let data = Object.keys(checked)
+            .filter(function(k){return checked[k]})
+            .map(Number);
+        console.log(data);
+        data.map((user) => {
+            axios.delete(`https://jsonplaceholder.typicode.com/users/${user}`).then(response => {
+                console.log(response.data);
+        }).catch(error => {
+                this.setState({
+                    error:error
+                })
+            })
+        })
+    }
     componentDidMount(){
         axios.get('https://jsonplaceholder.typicode.com/users').then(response => {
             console.log(response.data);
@@ -163,11 +179,12 @@ class EmployeeList extends Component{
                 />
                 {
                     this.state.showList && this.state.users.length ? 
-                        <Dashboard 
+                        <MultiSelect 
                             employee={this.state.users} 
                             handleClick={this.handleClick.bind(this)} 
                             handleDelete={this.handleDelete.bind(this)} 
                             handleAdd={this.handleAdd}
+                            handleMultipleDelete={this.handleMultipleDelete}
                         /> 
                     : ('')
                 }

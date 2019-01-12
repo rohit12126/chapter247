@@ -7,6 +7,9 @@ import EmployeeList from './container/EmployeeList';
 import PdfDemo from './PdfDemo';
 import BurgerBuilder from './container/BurgerBuilder';
 import * as serviceWorker from './serviceWorker';
+import axios from 'axios';
+
+axios.defaults.headers.common['Authorization'] = 'AUTH'
 
 ReactDOM.render(<EmployeeList />, document.getElementById('root'));
 
