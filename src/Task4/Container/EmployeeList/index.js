@@ -119,7 +119,7 @@ class EmployeeList extends Component{
                             data={this.state.persons} 
                             handelShow={this.handleShow.bind(this)} 
                             handleDelete={this.handleDelete.bind(this)} 
-                            handleAdd={this.handleAdd}
+                            // handleAdd={this.handleAdd}
                         /> 
                     : ('')
                 }
@@ -129,12 +129,12 @@ class EmployeeList extends Component{
                     : ''
                 }
                 {
-                    this.state.addContactForm ? 
+                    // this.state.addContactForm ? 
                         <AddEmployee 
                             handleChange = {this.handleChange}
                             handelSubmit = {this.handelSubmit}
                         />
-                    : ''
+                    // : ''
                 }
             </div>
         )
