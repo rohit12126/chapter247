@@ -1,5 +1,7 @@
 import React,{Component} from 'react';
 import  './Dashboard.css'
+import {Route} from 'react-router-dom'
+import AddEmployee from './../AddEmployee'
 class Dashboard extends Component{
     constructor(props){
         super(props)
@@ -16,8 +18,8 @@ class Dashboard extends Component{
             return <tr key = {index} style={{margin: '10px'}}>
                    <td onClick = {(e) => this.props.handelShow(element)}>{element. id}</td>
                    <td onClick = {(e) => this.props.handelShow(element)}>{element.name}</td>
-                   <td onClick = {(e) => this.props.handelShow(element)}>{element.username}</td>
-                   <td onClick = {(e) => this.props.handelShow(element)}>{element.email}</td>
+                   {/* <td onClick = {(e) => this.props.handelShow(element)}>{element.username}</td>
+                   <td onClick = {(e) => this.props.handelShow(element)}>{element.email}</td> */}
                    <td>	
                        <button className={"btn btn-primary"} onClick = {(e) => this.props.handelShow(element)}>View</button>&nbsp;
                         <button className={"btn btn-danger"} onClick = {(e) => this.props.handleDelete(index)}>Delete</button>
@@ -28,12 +30,16 @@ class Dashboard extends Component{
             
         return(
             <div>
+                <switch>
+                        <Route path="/add" Component={AddEmployee}></Route>
+                    </switch>
+
                 <table className="table">
                     <tr>
                         <th>Id</th>
                         <th>Name</th>
-                        <th>UserName</th> 
-                        <th>Email</th>
+                        {/* <th>UserName</th> 
+                        <th>Email</th> */}
                         <th>Action</th>
                     </tr>
                     <tbody>
@@ -41,7 +47,11 @@ class Dashboard extends Component{
                     </tbody>
                    
                 </table>
-                <center><button type="button" className="btn btn-primary" onClick={(e) => this.props.handleAdd(e)}>Add contact</button></center>
+                <center>
+                    {/* <button type="button" className="btn btn-primary" onClick={(e) => this.props.handleAdd(e)}>Add contact</button> */}
+                    <a href="/add">Add</a>
+                    
+                    </center>
    
            </div>
         );

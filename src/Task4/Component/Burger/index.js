@@ -17,7 +17,7 @@ class Burger extends Component {
         if (transformedIngredients.length === 0) {
             transformedIngredients = <p>Please add some ingredients!</p>
         }
-        console.log(this.props.ingredients);
+        console.log(this.props.ingredients);    
         return(
             <>
                 <BurgerIngredients type="breadTop"/>

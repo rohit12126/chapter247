@@ -9,6 +9,7 @@ class BurgerBuildControl extends Component {
     
     render(){
         console.log(this.props.totalPrice)
+        console.log(this.props.label);
         return(
     <div className={'BuildControl'}>
      
