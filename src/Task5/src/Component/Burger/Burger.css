@@ -1,0 +1,31 @@
+.bread-top{
+    background-color: rgb(136, 97, 13);
+    width: 500px;
+    height: 100px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    margin: 0 auto;
+}
+.cheese{
+    background-color: white;
+    width: 500px;
+    height: 50px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    margin: 0 auto;
+}
+.salad{
+    background-color: yellow;
+    width: 500px;
+    height: 50px;
+    border-radius: 45px;
+    margin: 0 auto;
+}
+.bread-bottom{
+    background-color: rgb(136, 97, 13);
+    width: 500px;
+    height: 100px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    margin: 0 auto;
+}
