@@ -4,9 +4,7 @@ import MultiSelect from './../../component/Multiselect';
 import EmployeeDetail from './../../component/EmployeeDetail';
 import AddEmployee from './../../component/AddEmployee';
 import axios from './../../component/axios';
-import { getEmployee, getEmployeeById, deleteById, addEmployee } from "./../../store/actions/employee.action";
 import {Modal} from 'react-bootstrap';
-import { connect } from "react-redux";
 
 class EmployeeList extends Component{
     constructor(props   ){
@@ -73,11 +71,9 @@ class EmployeeList extends Component{
         }
     }
     handleDelete = (index) => {
-        // let employeeList = [...this.state.employee];
-        // employeeList.splice(index, 1);
-        console.log('handle delete');
-        this.setState({ showList: true });
-        this.props.deleteById(index)
+        let employeeList = [...this.state.employee];
+        employeeList.splice(index, 1);
+        this.setState({ employee: employeeList });
     }
     handleClick(element){
         this.setState({
@@ -86,7 +82,6 @@ class EmployeeList extends Component{
             userId:element,
             showList:false
         })
-        this.props.getEmployeeById(element.id);
     }
     handleBack = () => {
         this.setState({
@@ -121,31 +116,7 @@ class EmployeeList extends Component{
     }
     handelSubmit = (e) => {
         e.preventDefault();
-        console.log('handleAdd');
-        const data =   {
-            "id": 1,
-            "name": "Aayushi",
-            "username": "Bret",
-            "email": "Sincere@april.biz",
-            "address": {
-              "street": "Kulas Light",
-              "suite": "Apt. 556",
-              "city": "Gwenborough",
-              "zipcode": "92998-3874",
-              "geo": {
-                "lat": "-37.3159",
-                "lng": "81.1496"
-              }
-            },
-            "phone": "1-770-736-8031 x56442",
-            "website": "hildegard.org",
-            "company": {
-              "name": "Romaguera-Crona",
-              "catchPhrase": "Multi-layered client-server neural-net",
-              "bs": "harness real-time e-markets"
-            }
-          }
-        this.props.addEmployee(data);
+        console.log('handleAdd')
         const {name, designation, age } = this.state
         let newList = [...this.state.employee];
         newList.push({
@@ -178,12 +149,19 @@ class EmployeeList extends Component{
             })
         })
     }
-    componentDidMount = () => {
-        this.props.getEmployee();
+    componentDidMount(){
+        axios.get('https://jsonplaceholder.typicode.com/users').then(response => {
+            console.log(response.data);
+            this.setState({
+                users:response.data
+            })
+        }).catch(error => {
+            this.setState({
+                error:error
+            })
+        })
     }
     render(){
-        console.log(this.props.employeeData);
-        console.log(this.props.employeeData.employeeList.length);
         return(
             <div>
                 <input 
@@ -201,9 +179,9 @@ class EmployeeList extends Component{
                     onChange={this.handleSearch} 
                 />
                 {
-                    this.state.showList && this.props.employeeData.employeeList.length ? 
+                    this.state.showList && this.state.users.length ? 
                         <MultiSelect 
-                            employee={this.props.employeeData.employeeList} 
+                            employee={this.state.users} 
                             handleClick={this.handleClick.bind(this)} 
                             handleDelete={this.handleDelete.bind(this)} 
                             handleAdd={this.handleAdd}
@@ -212,9 +190,9 @@ class EmployeeList extends Component{
                     : ('')
                 }
                 {
-                    this.state.showDetails && this.props.employeeData.employee !== "" ? 
+                    this.state.showDetails ? 
                         <EmployeeDetail 
-                            employee={this.props.employeeData.employee} 
+                            employee={this.state.employeeData} 
                             userId={this.state.userId}
                             handleBack={this.handleBack}
                         />
@@ -233,20 +211,4 @@ class EmployeeList extends Component{
     }
 }
 
-const mapStateToProps = (state) => {
-    console.log(state)
-    return {
-        employeeData: state.employeeReducer
-    }
-}
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        getEmployee: () => dispatch(getEmployee()),
-        getEmployeeById: id => dispatch(getEmployeeById(id)),
-        deleteById: id => dispatch(deleteById(id)),
-        addEmployee: data => dispatch(addEmployee(data))
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(EmployeeList);
+export default EmployeeList;

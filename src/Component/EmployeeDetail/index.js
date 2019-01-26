@@ -9,28 +9,17 @@ class EmployeeDetail extends Component{
     }
   }
   componentDidMount(){
-    console.log(this.props.userId);
-    console.log('this.props.userId');
-    axios.get(`https://jsonplaceholder.typicode.com/users/${this.props.userId}`).then(response => {
-        console.log(response.data);
-        this.setState({
-          user:response.data
-        })
-      }).catch(error => {
-        this.setState({
-          error:error
-        })
-      })
+    
   }
   render(){
     return(
       <>
         <p onClick={this.props.handleBack}>Back</p>
         <h2>Employee details</h2>
-        <p>Name: {this.state.user.name}</p>
-        <p>Email: {this.state.user.email}</p>
-        <p>Website: {this.state.user.website}</p>
-        <p>Phone: {this.state.user.phone}</p>
+        <p>Name: {this.props.employee.name}</p>
+        <p>Email: {this.props.employee.email}</p>
+        <p>Website: {this.props.employee.website}</p>
+        <p>Phone: {this.props.employee.phone}</p>
       </>
     )
   }
